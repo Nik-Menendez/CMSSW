@@ -213,9 +213,9 @@ void CSCTriggerPrimitivesBuilder::build(const CSCBadChambers* badChambers,
               // put collections in event
               put(lctV, oc_lct, detid, " ME1b LCT digi");
               put(alctV, oc_alct, detid, " ME1b ALCT digi");
-              put(alctV_all, oc_alct_all, detid, " ME1b ALCT digi");
+              put(alctV_all, oc_alct_all, detid, " ALL ME1b ALCT digi");
               put(clctV, oc_clct, detid, " ME1b CLCT digi");
-              put(clctV_all, oc_clct_all, detid, " ME1b CLCT digi");
+              put(clctV_all, oc_clct_all, detid, " ALL ME1b CLCT digi");
               put(pretriggerV, oc_pretrigger, detid, " ME1b CLCT pre-trigger digi");
               put(preTriggerBXs, oc_pretrig, detid, " ME1b CLCT pre-trigger BX");
               put(alctpretriggerV, oc_alctpretrigger, detid, " ME1b ALCT pre-trigger digi");
@@ -273,9 +273,9 @@ void CSCTriggerPrimitivesBuilder::build(const CSCBadChambers* badChambers,
               // put collections in event
               put(lctV, oc_lct, detid, " ME1b LCT digi");
               put(alctV, oc_alct, detid, " ME1b ALCT digi");
-              put(alctV_all, oc_alct_all, detid, " ME1b ALCT digi");
+              put(alctV_all, oc_alct_all, detid, " ALL ME1b ALCT digi");
               put(clctV, oc_clct, detid, " ME1b CLCT digi");
-              put(clctV_all, oc_clct_all, detid, " ME1b CLCT digi");
+              put(clctV_all, oc_clct_all, detid, " ALL ME1b CLCT digi");
               put(pretriggerV, oc_pretrigger, detid, " ME1b CLCT pre-trigger digi");
               put(preTriggerBXs, oc_pretrig, detid, " ME1b CLCT pre-trigger BX");
               put(copads, oc_gemcopad, gemId, " GEM coincidence pad");
@@ -327,9 +327,9 @@ void CSCTriggerPrimitivesBuilder::build(const CSCBadChambers* badChambers,
               // put collections in event
               put(lctV, oc_lct, detid, " ME21 LCT digi");
               put(alctV, oc_alct, detid, " ME21 ALCT digi");
-              put(alctV_all, oc_alct_all, detid, " ME21 ALCT digi");
+              put(alctV_all, oc_alct_all, detid, " ALL ME21 ALCT digi");
               put(clctV, oc_clct, detid, " ME21 CLCT digi");
-              put(clctV_all, oc_clct_all, detid, " ME21 CLCT digi");
+              put(clctV_all, oc_clct_all, detid, " ALL ME21 CLCT digi");
               put(pretriggerV, oc_pretrigger, detid, " ME21 CLCT pre-trigger digi");
               put(preTriggerBXs, oc_pretrig, detid, " ME21 CLCT pre-trigger BX");
               put(copads, oc_gemcopad, gemId, " GEM coincidence pad");
@@ -361,9 +361,9 @@ void CSCTriggerPrimitivesBuilder::build(const CSCBadChambers* badChambers,
               // put collections in event
               put(lctV, oc_lct, detid, " LCT digi");
               put(alctV, oc_alct, detid, " ALCT digi");
-              put(alctV_all, oc_alct_all, detid, " ALCT digi");
+              put(alctV_all, oc_alct_all, detid, " ALL ALCT digi");
               put(clctV, oc_clct, detid, " CLCT digi");
-              put(clctV_all, oc_clct_all, detid, tmb->getCSCName() + " CLCT digi");
+              put(clctV_all, oc_clct_all, detid, " ALL " + tmb->getCSCName() + " CLCT digi");
               put(pretriggerV, oc_pretrigger, detid, " CLCT pre-trigger digi");
               put(preTriggerBXs, oc_pretrig, detid, " CLCT pre-trigger BX");
               put(alctpretriggerV, oc_alctpretrigger, detid, " ALCT pre-trigger digi");
@@ -393,9 +393,9 @@ void CSCTriggerPrimitivesBuilder::build(const CSCBadChambers* badChambers,
               // put collections in event
               put(lctV, oc_lct, detid, tmb->getCSCName() + " LCT digi");
               put(alctV, oc_alct, detid, tmb->getCSCName() + " ALCT digi");
-              put(alctV_all, oc_alct_all, detid, tmb->getCSCName() + " ALCT digi");
+              put(alctV_all, oc_alct_all, detid, tmb->getCSCName() + " ALL ALCT digi");
               put(clctV, oc_clct, detid, tmb->getCSCName() + " CLCT digi");
-              put(clctV_all, oc_clct_all, detid, tmb->getCSCName() + " CLCT digi");
+              put(clctV_all, oc_clct_all, detid, tmb->getCSCName() + " ALL CLCT digi");
               put(pretriggerV, oc_pretrigger, detid, tmb->getCSCName() + " CLCT pre-trigger digi");
               put(preTriggerBXs, oc_pretrig, detid, tmb->getCSCName() + " CLCT pre-trigger BX");
               put(alctpretriggerV, oc_alctpretrigger, detid, tmb->getCSCName() + " ALCT pre-trigger digi");

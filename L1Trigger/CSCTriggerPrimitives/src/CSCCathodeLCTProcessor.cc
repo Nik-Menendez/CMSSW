@@ -1243,7 +1243,7 @@ std::vector<CSCCLCTDigi> CSCCathodeLCTProcessor::readoutCLCTs(int nMaxCLCTs) con
     if (!p.isValid()) continue;
 
     //ignore the CLCTs with an index larger than nMaxCLCTs
-    if (p.getTrknmb() > nMaxCLCTs) continue;
+    if (p.getTrknmb() > nMaxCLCTs) break;
 
     const int bx = p.getBX();
     // Skip CLCTs found too early relative to L1Accept.

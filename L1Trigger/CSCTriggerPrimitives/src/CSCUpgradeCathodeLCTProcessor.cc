@@ -223,7 +223,8 @@ CSCUpgradeCathodeLCTProcessor::findLCTs(const std::vector<int> halfstrip[CSCCons
 
       // Quality for sorting.
       int quality[CSCConstants::NUM_HALF_STRIPS_7CFEBS];
-      int best_halfstrip[CSCConstants::MAX_CLCTS_PER_PROCESSOR], best_quality[CSCConstants::MAX_CLCTS_PER_PROCESSOR];
+      int best_halfstrip[CSCConstants::MAX_CLCTS_PER_PROCESSOR];
+      int best_quality[CSCConstants::MAX_CLCTS_PER_PROCESSOR];
       for (int ilct = 0; ilct < CSCConstants::MAX_CLCTS_PER_PROCESSOR; ilct++)
       {
         best_halfstrip[ilct] = -1;
@@ -284,23 +285,21 @@ CSCUpgradeCathodeLCTProcessor::findLCTs(const std::vector<int> halfstrip[CSCCons
       // If 1st best CLCT is found, look for the 2nd best.
       if (best_halfstrip[0] >= 0)
       {
-        // Mark keys near best CLCT as busy by setting their quality to zero, and repeat the search.
-        markBusyKeys(best_halfstrip[0], best_pid[best_halfstrip[0]], quality);
+        for (int ilct = 1; ilct < CSCConstants::MAX_CLCTS_PER_PROCESSOR; ilct++) {
+          // Mark keys near best CLCT as busy by setting their quality to zero, and repeat the search.
+          markBusyKeys(best_halfstrip[ilct-1], best_pid[best_halfstrip[ilct-1]], quality);
 
-        for (int hstrip = stagger[CSCConstants::KEY_CLCT_LAYER - 1]; hstrip < maxHalfStrips; hstrip++)
-        {
-          if (quality[hstrip] > best_quality[1] &&
-              pretrig_zone[hstrip] &&
-              !busyMap[hstrip][first_bx] )
-              //!busyMap[hstrip][latch_bx] )
-          {
-            best_halfstrip[1] = hstrip;
-            best_quality[1] = quality[hstrip];
-            if (infoV > 1)
-            {
-              LogTrace("CSCUpgradeCathodeLCTProcessor") << " 2nd CLCT: halfstrip = " << std::setw(3) << hstrip << " quality = "
-                  << std::setw(3) << quality[hstrip] << " best halfstrip = " << std::setw(3) << best_halfstrip[1]
-                  << " best quality = " << std::setw(3) << best_quality[1];
+          for (int hstrip = stagger[CSCConstants::KEY_CLCT_LAYER - 1]; hstrip < maxHalfStrips; hstrip++) {
+            if (quality[hstrip] > best_quality[ilct] && pretrig_zone[hstrip] && !busyMap[hstrip][first_bx]) {
+              best_halfstrip[ilct] = hstrip;
+              best_quality[ilct] = quality[hstrip];
+              if (infoV > 1) {
+                LogTrace("CSCCathodeLCTProcessor")
+                  << "CLCT " << ilct+1 << ": halfstrip = " << std::setw(3) << hstrip << " quality = " << std::setw(3)
+                  << quality[hstrip] << " nhits = " << std::setw(3) << nhits[hstrip] << " pid = " << std::setw(3)
+                  << best_pid[hstrip] << " best halfstrip = " << std::setw(3) << best_halfstrip[ilct]
+                  << " best quality = " << std::setw(3) << best_quality[ilct];
+              }
             }
           }
         }
@@ -329,14 +328,15 @@ CSCUpgradeCathodeLCTProcessor::findLCTs(const std::vector<int> halfstrip[CSCCons
             keystrip_data[ilct][CLCT_CFEB] = keystrip_data[ilct][CLCT_STRIP] / CSCConstants::NUM_HALF_STRIPS_PER_CFEB;
             int halfstrip_in_cfeb = keystrip_data[ilct][CLCT_STRIP] - CSCConstants::NUM_HALF_STRIPS_PER_CFEB * keystrip_data[ilct][CLCT_CFEB];
 
-            if (infoV > 1)
-              LogTrace("CSCUpgradeCathodeLCTProcessor") << " Final selection: ilct " << ilct << " key halfstrip "
-                  << keystrip_data[ilct][CLCT_STRIP] << " quality " << keystrip_data[ilct][CLCT_QUALITY] << " pattern "
-                  << keystrip_data[ilct][CLCT_PATTERN] << " bx " << keystrip_data[ilct][CLCT_BX];
-
             CSCCLCTDigi thisLCT(1, keystrip_data[ilct][CLCT_QUALITY], keystrip_data[ilct][CLCT_PATTERN],
                 keystrip_data[ilct][CLCT_STRIP_TYPE], keystrip_data[ilct][CLCT_BEND], halfstrip_in_cfeb,
                 keystrip_data[ilct][CLCT_CFEB], keystrip_data[ilct][CLCT_BX]);
+
+            if (infoV > 1) {
+              LogTrace("CSCUpgradeCathodeLCTProcessor")
+                << " Final selection: ilct " << ilct << " " << thisLCT << std::endl;
+            }
+
             thisLCT.setFullBX(fbx);
             lctList.push_back(thisLCT);
             lctListBX.push_back(thisLCT);

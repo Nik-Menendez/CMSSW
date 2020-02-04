@@ -777,7 +777,7 @@ std::vector<CSCCLCTDigi> CSCCathodeLCTProcessor::findLCTs(const std::vector<int>
         }
 
         // If 1st best CLCT is found, look for other CLCTs
-        if (best_halfstrip[0] >= -1) {
+        if (best_halfstrip[0] >= 0) {
           std::cout << "Checking for extra CLCTs, max(" << CSCConstants::MAX_CLCTS_PER_PROCESSOR << std::endl;
           for (int ilct = 1; ilct < CSCConstants::MAX_CLCTS_PER_PROCESSOR; ilct++) {
             // std::cout << "Marking busy keys for CLCT " << ilct << std::endl;

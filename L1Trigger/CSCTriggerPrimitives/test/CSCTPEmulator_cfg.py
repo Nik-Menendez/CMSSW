@@ -72,10 +72,14 @@ process.lctreader.CSCWireDigiProducer = cms.InputTag("simMuonCSCDigis","MuonCSCW
 
 # Output
 # ======
-process.output = cms.OutputModule("PoolOutputModule",
+process.output = cms.OutputModule(
+    "PoolOutputModule",
     fileName = cms.untracked.string("lcts.root"),
     outputCommands = cms.untracked.vstring("drop *",
-        "keep *_cscTriggerPrimitive*_*_*")
+                                           "keep *_cscTriggerPrimitive*_*_*",
+                                           "keep *_*csc*_*_*",
+                                           "keep *_*CSC*_*_*"
+                                       )
 )
 
 process.TFileService = cms.Service("TFileService",

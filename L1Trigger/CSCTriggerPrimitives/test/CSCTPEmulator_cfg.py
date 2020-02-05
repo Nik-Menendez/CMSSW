@@ -5,17 +5,25 @@
 import FWCore.ParameterSet.Config as cms
 from Configuration.StandardSequences.Eras import eras
 
-process = cms.Process("CSCTPEmulator", eras.Run3)
+process = cms.Process("CSCTPEmulator", eras.Run2_2018)
 
 process.maxEvents = cms.untracked.PSet(
-  input = cms.untracked.int32(10)
+    input = cms.untracked.int32(100)
 )
 
 process.source = cms.Source("PoolSource",
      fileNames = cms.untracked.vstring(
-         'file:/uscms/home/dildick/nobackup/work/LLPStudiesWithSergoEtAL/CMSSW_10_6_4/src/step2.root'
+         '/store/data/Run2018D/ZeroBias/RAW/v1/000/323/940/00000/090F7307-7EB4-CA45-A6B9-542C3AE60FD4.root'
      )
 )
+
+"""
+'file:/afs/cern.ch/work/c/cpena/public/NikTrigger/step2_file1_to_5.root',
+'file:/afs/cern.ch/work/c/cpena/public/NikTrigger/step2_file6_to_10.root',
+'file:/afs/cern.ch/work/c/cpena/public/NikTrigger/step2_file11_to_15.root',
+'file:/afs/cern.ch/work/c/cpena/public/NikTrigger/step2_file16_to_20.root'
+#         'file:/uscms/home/dildick/nobackup/work/LLPStudiesWithSergoEtAL/CMSSW_10_6_4/src/step2.root'
+"""
 
 process.MessageLogger = cms.Service("MessageLogger",
     destinations = cms.untracked.vstring("debug"),
@@ -35,7 +43,7 @@ process.MessageLogger = cms.Service("MessageLogger",
 process.load('Configuration.StandardSequences.GeometryRecoDB_cff')
 process.load("Configuration.StandardSequences.FrontierConditions_GlobalTag_cff")
 from Configuration.AlCa.GlobalTag import GlobalTag
-process.GlobalTag = GlobalTag(process.GlobalTag, 'auto:phase1_2021_realistic', '')
+process.GlobalTag = GlobalTag(process.GlobalTag, '103X_dataRun2_Prompt_v3', '')
 
 # magnetic field (do I need it?)
 # ==============================
@@ -52,11 +60,8 @@ process.muonCSCDigis.InputObjects = "rawDataCollector"
 # CSC Trigger Primitives emulator
 # ===============================
 process.load("L1Trigger.CSCTriggerPrimitives.cscTriggerPrimitiveDigis_cfi")
-#process.cscTriggerPrimitiveDigis.alctParam07.verbosity = 2
-#process.cscTriggerPrimitiveDigis.clctParam07.verbosity = 2
-#process.cscTriggerPrimitiveDigis.tmbParam.verbosity = 2
-#process.cscTriggerPrimitiveDigis.CSCComparatorDigiProducer = "simMuonCSCDigis:MuonCSCComparatorDigi:HLT"
-#process.cscTriggerPrimitiveDigis.CSCWireDigiProducer = "simMuonCSCDigis:MuonCSCWireDigi:HLT"
+process.cscTriggerPrimitiveDigis.CSCComparatorDigiProducer = "muonCSCDigis:MuonCSCComparatorDigi"
+process.cscTriggerPrimitiveDigis.CSCWireDigiProducer = "muonCSCDigis:MuonCSCWireDigi"
 
 # CSC Trigger Primitives reader
 # =============================
@@ -69,8 +74,8 @@ process.lctreader.CSCWireDigiProducer = cms.InputTag("simMuonCSCDigis","MuonCSCW
 # ======
 process.output = cms.OutputModule("PoolOutputModule",
     fileName = cms.untracked.string("lcts.root"),
-    outputCommands = cms.untracked.vstring("keep *",
-        "drop *_DaqSource_*_*")
+    outputCommands = cms.untracked.vstring("drop *",
+        "keep *_cscTriggerPrimitive*_*_*")
 )
 
 process.TFileService = cms.Service("TFileService",
@@ -79,7 +84,8 @@ process.TFileService = cms.Service("TFileService",
 
 # Scheduler path
 # ==============
-process.p = cms.Path(#process.muonCSCDigis*
+process.p = cms.Path(
+    process.muonCSCDigis*
     process.cscTriggerPrimitiveDigis
 #    *process.lctreader
     )

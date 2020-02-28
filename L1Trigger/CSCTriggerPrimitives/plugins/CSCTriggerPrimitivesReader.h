@@ -279,7 +279,8 @@ class CSCTriggerPrimitivesReader : public edm::EDAnalyzer
                     const CSCALCTDigiCollection* alcts_emul);
   void compareCLCTs(const CSCCLCTDigiCollection* clcts_data,
                     const CSCCLCTDigiCollection* clcts_emul,
-                    const CSCCLCTPreTriggerDigiCollection* pretrigs_emul);
+                    const CSCCLCTPreTriggerDigiCollection* pretrigs_emul,
+                    const CSCComparatorDigiCollection* comps);
   void compareLCTs(const CSCCorrelatedLCTDigiCollection* lcts_data,
                    const CSCCorrelatedLCTDigiCollection* lcts_emul,
                    const CSCALCTDigiCollection* alcts_data,

@@ -1420,7 +1420,7 @@ void CSCTriggerPrimitivesReader::compare(const CSCALCTDigiCollection* alcts_data
 
   // Comparisons
   compareALCTs(alcts_data, alcts_emul);
-  compareCLCTs(clcts_data, clcts_emul, pretrigs_emul);
+  compareCLCTs(clcts_data, clcts_emul, pretrigs_emul, comps);
   compareLCTs(lcts_data,  lcts_emul, alcts_data, clcts_data);
   //compareMPCLCTs(mpclcts_data,  mpclcts_emul, alcts_data, clcts_data);
 }
@@ -1710,7 +1710,8 @@ void CSCTriggerPrimitivesReader::compareALCTs(const CSCALCTDigiCollection* alcts
 
 void CSCTriggerPrimitivesReader::compareCLCTs(const CSCCLCTDigiCollection* clcts_data,
                                               const CSCCLCTDigiCollection* clcts_emul,
-                                              const CSCCLCTPreTriggerDigiCollection* pretrigs_emul) {
+                                              const CSCCLCTPreTriggerDigiCollection* pretrigs_emul
+                                              const CSCComparatorDigiCollection* comps) {
   // Number of Tbins before pre-trigger for raw cathode hits.
   const int tbin_cathode_offset = 7;
   //const int tbin_cathode_offset = 8;//in MC, it became 8, Tao
@@ -1757,6 +1758,14 @@ void CSCTriggerPrimitivesReader::compareCLCTs(const CSCCLCTDigiCollection* clcts
           for (auto pretrigIt = pretrigrange.first; pretrigIt != pretrigrange.second; pretrigIt++){
             if ((*pretrigIt).isValid()){
               pretrigV_emul.push_back(*pretrigIt);
+            }
+          }
+
+          std::vector<CSCCompartorDigi>  compV;
+          const auto& crange = comps->get(detid);
+          for (auto digiIt = crange.first; digiIt != crange.second; digiIt++) {
+            if ((*digiIt).isValid()) {
+              compV.push_back(*digiIt);
             }
           }
 

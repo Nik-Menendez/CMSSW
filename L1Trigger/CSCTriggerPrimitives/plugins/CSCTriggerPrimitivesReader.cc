@@ -156,6 +156,7 @@ void TreePerStub::init(int run, int event){
   t_station = -1;
   t_chambertype = -1;
   t_endcap = -2;
+  t_nComp = 0;
 }
 
 TTree *TreePerStub::bookTree(TTree *t, const std::string & name)
@@ -177,6 +178,7 @@ TTree *TreePerStub::bookTree(TTree *t, const std::string & name)
   t->Branch("t_endcap", &t_endcap, "t_endcap/I");
   t->Branch("t_station", &t_station, "t_station/I");
   t->Branch("t_chambertype", &t_chambertype, "t_chambertype/I");
+  t->Branch("t_nComp", &t_nComp, "t_nComp/I");
 
   return t;
 }
@@ -428,6 +430,7 @@ void CSCTriggerPrimitivesReader::analyze(const edm::Event& ev,
   edm::Handle<CSCCLCTPreTriggerDigiCollection> pretrigs_emul;
   edm::Handle<CSCCorrelatedLCTDigiCollection> lcts_tmb_emul;
   edm::Handle<CSCCorrelatedLCTDigiCollection> lcts_mpc_emul;
+  edm::Handle<CSCComparatorDigiCollection> compDigis;
 
   // Data
   if (dataLctsIn_) {
@@ -526,7 +529,8 @@ void CSCTriggerPrimitivesReader::analyze(const edm::Event& ev,
   if (dataLctsIn_ && emulLctsIn_) {
     compare(alcts_data.product(), alcts_emul.product(),
             clcts_data.product(), clcts_emul.product(),
-            pretrigs_emul.product(), lcts_tmb_data.product(), lcts_tmb_emul.product()
+            pretrigs_emul.product(), lcts_tmb_data.product(), lcts_tmb_emul.product(),
+            compDigis.product()
             );
   }
   // Fill MC-based resolution/efficiency histograms, if needed.
@@ -738,7 +742,6 @@ void CSCTriggerPrimitivesReader::bookCLCTHistos() {
     char asdf[256];
     string s1 = "CLCT bend, " + csc_type[i];
     sprintf(asdf,"CLCT_bend0_%i",i+1);
-    hClctBendCsc[i][0] = fs->make<TH1F>(asdf, s1.c_str(),  5, -0.5, 4.5);
     sprintf(asdf,"CLCT_bend1_%i",i+1);
     hClctBendCsc[i][1] = fs->make<TH1F>(asdf, s1.c_str(),  5, -0.5, 4.5);
 
@@ -1413,14 +1416,15 @@ void CSCTriggerPrimitivesReader::compare(const CSCALCTDigiCollection* alcts_data
                                          const CSCCLCTDigiCollection* clcts_emul,
                                          const CSCCLCTPreTriggerDigiCollection* pretrigs_emul,
                                          const CSCCorrelatedLCTDigiCollection* lcts_data,
-                                         const CSCCorrelatedLCTDigiCollection* lcts_emul){
+                                         const CSCCorrelatedLCTDigiCollection* lcts_emul,
+                                         const CSCComparatorDigiCollection* compDigis){
 
   // Book histos when called for the first time.
   if (!bookedCompHistos) bookCompHistos();
 
   // Comparisons
   compareALCTs(alcts_data, alcts_emul);
-  compareCLCTs(clcts_data, clcts_emul, pretrigs_emul, comps);
+  compareCLCTs(clcts_data, clcts_emul, pretrigs_emul, compDigis);
   compareLCTs(lcts_data,  lcts_emul, alcts_data, clcts_data);
   //compareMPCLCTs(mpclcts_data,  mpclcts_emul, alcts_data, clcts_data);
 }
@@ -1710,8 +1714,8 @@ void CSCTriggerPrimitivesReader::compareALCTs(const CSCALCTDigiCollection* alcts
 
 void CSCTriggerPrimitivesReader::compareCLCTs(const CSCCLCTDigiCollection* clcts_data,
                                               const CSCCLCTDigiCollection* clcts_emul,
-                                              const CSCCLCTPreTriggerDigiCollection* pretrigs_emul
-                                              const CSCComparatorDigiCollection* comps) {
+                                              const CSCCLCTPreTriggerDigiCollection* pretrigs_emul,
+                                              const CSCComparatorDigiCollection* compDigis) {
   // Number of Tbins before pre-trigger for raw cathode hits.
   const int tbin_cathode_offset = 7;
   //const int tbin_cathode_offset = 8;//in MC, it became 8, Tao
@@ -1720,6 +1724,7 @@ void CSCTriggerPrimitivesReader::compareCLCTs(const CSCCLCTDigiCollection* clcts
   // Loop over all chambers in search for CLCTs.
   std::vector<CSCCLCTDigi>::const_iterator pd, pe;
   std::vector<CSCCLCTPreTriggerDigi>::const_iterator pretrig;
+  std::vector<CSCComparatorDigi>::const_iterator compa;
   perStub[2].init(RUN_, Event_);
   perStub[3].init(RUN_, Event_);
   for (int endc = 1; endc <= 2; endc++) {
@@ -1761,8 +1766,8 @@ void CSCTriggerPrimitivesReader::compareCLCTs(const CSCCLCTDigiCollection* clcts
             }
           }
 
-          std::vector<CSCCompartorDigi>  compV;
-          const auto& crange = comps->get(detid);
+          std::vector<CSCComparatorDigi>  compV;
+          const auto& crange = compDigis->get(detid);
           for (auto digiIt = crange.first; digiIt != crange.second; digiIt++) {
             if ((*digiIt).isValid()) {
               compV.push_back(*digiIt);
@@ -1851,6 +1856,7 @@ void CSCTriggerPrimitivesReader::compareCLCTs(const CSCCLCTDigiCollection* clcts
           perStub[3].t_EventNumberAnalyzed = eventsAnalyzed;
           perStub[3].t_nStubs              = nemul;
           perStub[3].t_nStubs_readout      = nemul_readout;
+          perStub[3].t_nComp = compV.size();
           event_tree[3]->Fill();
 
 

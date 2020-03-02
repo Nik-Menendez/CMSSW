@@ -61,6 +61,7 @@ struct TreePerStub{
   Int_t t_station;
   Int_t t_chambertype;
   Int_t t_nComp;
+  Int_t t_nWire;
 };
 
 
@@ -273,12 +274,14 @@ class CSCTriggerPrimitivesReader : public edm::EDAnalyzer
                const CSCCLCTPreTriggerDigiCollection* pretrigs_emul,
                const CSCCorrelatedLCTDigiCollection* lcts_data,
                const CSCCorrelatedLCTDigiCollection* lcts_emul,
-               const CSCComparatorDigiCollection* compDigis);//,
+               const CSCComparatorDigiCollection* compDigis,
+               const CSCWireDigiCollection* wireDigis);//,
   //const CSCCorrelatedLCTDigiCollection* mpclcts_data,
   //const CSCCorrelatedLCTDigiCollection* mpclcts_emul);
   void bookCompHistos();
   void compareALCTs(const CSCALCTDigiCollection* alcts_data,
-                    const CSCALCTDigiCollection* alcts_emul);
+                    const CSCALCTDigiCollection* alcts_emul,
+                    const CSCWireDigiCollection* wireDigis);
   void compareCLCTs(const CSCCLCTDigiCollection* clcts_data,
                     const CSCCLCTDigiCollection* clcts_emul,
                     const CSCCLCTPreTriggerDigiCollection* pretrigs_emul,

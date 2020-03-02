@@ -157,6 +157,7 @@ void TreePerStub::init(int run, int event){
   t_chambertype = -1;
   t_endcap = -2;
   t_nComp = 0;
+  t_nWire = 0;
 }
 
 TTree *TreePerStub::bookTree(TTree *t, const std::string & name)
@@ -179,6 +180,7 @@ TTree *TreePerStub::bookTree(TTree *t, const std::string & name)
   t->Branch("t_station", &t_station, "t_station/I");
   t->Branch("t_chambertype", &t_chambertype, "t_chambertype/I");
   t->Branch("t_nComp", &t_nComp, "t_nComp/I");
+  t->Branch("t_nWire", &t_nWire, "t_nWire/I");
 
   return t;
 }
@@ -431,6 +433,7 @@ void CSCTriggerPrimitivesReader::analyze(const edm::Event& ev,
   edm::Handle<CSCCorrelatedLCTDigiCollection> lcts_tmb_emul;
   edm::Handle<CSCCorrelatedLCTDigiCollection> lcts_mpc_emul;
   edm::Handle<CSCComparatorDigiCollection> compDigis;
+  edm::Handle<CSCWireDigiCollection> wireDigis;
 
   // Data
   if (dataLctsIn_) {
@@ -530,7 +533,7 @@ void CSCTriggerPrimitivesReader::analyze(const edm::Event& ev,
     compare(alcts_data.product(), alcts_emul.product(),
             clcts_data.product(), clcts_emul.product(),
             pretrigs_emul.product(), lcts_tmb_data.product(), lcts_tmb_emul.product(),
-            compDigis.product()
+            compDigis.product(), wireDigis.product()
             );
   }
   // Fill MC-based resolution/efficiency histograms, if needed.
@@ -1417,20 +1420,22 @@ void CSCTriggerPrimitivesReader::compare(const CSCALCTDigiCollection* alcts_data
                                          const CSCCLCTPreTriggerDigiCollection* pretrigs_emul,
                                          const CSCCorrelatedLCTDigiCollection* lcts_data,
                                          const CSCCorrelatedLCTDigiCollection* lcts_emul,
-                                         const CSCComparatorDigiCollection* compDigis){
+                                         const CSCComparatorDigiCollection* compDigis,
+                                         const CSCWireDigiCollection* wireDigis){
 
   // Book histos when called for the first time.
   if (!bookedCompHistos) bookCompHistos();
 
   // Comparisons
-  compareALCTs(alcts_data, alcts_emul);
+  compareALCTs(alcts_data, alcts_emul, wireDigis);
   compareCLCTs(clcts_data, clcts_emul, pretrigs_emul, compDigis);
   compareLCTs(lcts_data,  lcts_emul, alcts_data, clcts_data);
   //compareMPCLCTs(mpclcts_data,  mpclcts_emul, alcts_data, clcts_data);
 }
 
 void CSCTriggerPrimitivesReader::compareALCTs(const CSCALCTDigiCollection* alcts_data,
-                                              const CSCALCTDigiCollection* alcts_emul) {
+                                              const CSCALCTDigiCollection* alcts_emul,
+                                              const CSCWireDigiCollection* wireDigis) {
   int emul_corr_bx;
 
   // Should be taken from config. parameters.
@@ -1469,6 +1474,12 @@ void CSCTriggerPrimitivesReader::compareALCTs(const CSCALCTDigiCollection* alcts
               alctV_emul.push_back(*digiIt);
               bookedalctV_emul.push_back(false);
             }
+          }
+
+          std::vector<CSCWireDigi>  wireV;
+          const auto& wrange = wireDigis->get(detid);
+          for (auto digiIt = wrange.first; digiIt != wrange.second; digiIt++) {
+            wireV.push_back(*digiIt);
           }
 
           int ndata = alctV_data.size();
@@ -1535,6 +1546,7 @@ void CSCTriggerPrimitivesReader::compareALCTs(const CSCALCTDigiCollection* alcts
           perStub[1].t_EventNumberAnalyzed = eventsAnalyzed;
           perStub[1].t_nStubs              = nemul;
           perStub[1].t_nStubs_readout      = nemul;
+          perStub[1].t_nWire = wireV.size();
           event_tree[1]->Fill();
 
           int csctype = getCSCType(detid);

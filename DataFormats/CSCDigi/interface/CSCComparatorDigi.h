@@ -60,6 +60,7 @@ public:
   /// Print content of digi
   void print() const;
 
+
 private:
   uint16_t strip_;
   uint16_t comparator_;

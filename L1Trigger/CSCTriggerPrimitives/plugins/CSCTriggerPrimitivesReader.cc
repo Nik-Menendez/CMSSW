@@ -1769,9 +1769,7 @@ void CSCTriggerPrimitivesReader::compareCLCTs(const CSCCLCTDigiCollection* clcts
           std::vector<CSCComparatorDigi>  compV;
           const auto& crange = compDigis->get(detid);
           for (auto digiIt = crange.first; digiIt != crange.second; digiIt++) {
-            if ((*digiIt).isValid()) {
-              compV.push_back(*digiIt);
-            }
+            compV.push_back(*digiIt);
           }
 
           int ndata = clctV_data.size();

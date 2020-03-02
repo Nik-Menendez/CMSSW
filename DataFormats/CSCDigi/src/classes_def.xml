@@ -8,7 +8,9 @@
    <class name="CSCStripDigi" ClassVersion="10">
     <version ClassVersion="10" checksum="432407273"/>
    </class>
-   <class name="CSCComparatorDigi" ClassVersion="10">
+   <class name="CSCComparatorDigi" ClassVersion="12">
+    <version ClassVersion="12" checksum="656608282"/>
+    <version ClassVersion="11" checksum="1692454798"/>
     <version ClassVersion="10" checksum="656608282"/>
    </class>
    <class name="CSCCorrelatedLCTDigi" ClassVersion="11">

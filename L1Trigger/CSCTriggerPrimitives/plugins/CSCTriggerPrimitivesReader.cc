@@ -1476,11 +1476,11 @@ void CSCTriggerPrimitivesReader::compareALCTs(const CSCALCTDigiCollection* alcts
             }
           }
 
-          std::vector<CSCWireDigi>  wireV;
-          const auto& wrange = wireDigis->get(detid);
-          for (auto digiIt = wrange.first; digiIt != wrange.second; digiIt++) {
-            wireV.push_back(*digiIt);
-          }
+          //std::vector<CSCWireDigi>  wireV;
+          //const auto& wrange = wireDigis->get(detid);
+          //for (auto digiIt = wrange.first; digiIt != wrange.second; digiIt++) {
+          //  wireV.push_back(*digiIt);
+          //}
 
           int ndata = alctV_data.size();
           int nemul = alctV_emul.size();
@@ -1546,7 +1546,7 @@ void CSCTriggerPrimitivesReader::compareALCTs(const CSCALCTDigiCollection* alcts
           perStub[1].t_EventNumberAnalyzed = eventsAnalyzed;
           perStub[1].t_nStubs              = nemul;
           perStub[1].t_nStubs_readout      = nemul;
-          perStub[1].t_nWire = wireV.size();
+          //perStub[1].t_nWire = wireV.size();
           event_tree[1]->Fill();
 
           int csctype = getCSCType(detid);
@@ -1778,11 +1778,11 @@ void CSCTriggerPrimitivesReader::compareCLCTs(const CSCCLCTDigiCollection* clcts
             }
           }
 
-          std::vector<CSCComparatorDigi>  compV;
-          const auto& crange = compDigis->get(detid);
-          for (auto digiIt = crange.first; digiIt != crange.second; digiIt++) {
-            compV.push_back(*digiIt);
-          }
+          //std::vector<CSCComparatorDigi>  compV;
+          //const auto& crange = compDigis->get(detid);
+          //for (auto digiIt = crange.first; digiIt != crange.second; digiIt++) {
+          //  compV.push_back(*digiIt);
+          //}
 
           int ndata = clctV_data.size();
           int nemul = clctV_emul.size();
@@ -1866,7 +1866,7 @@ void CSCTriggerPrimitivesReader::compareCLCTs(const CSCCLCTDigiCollection* clcts
           perStub[3].t_EventNumberAnalyzed = eventsAnalyzed;
           perStub[3].t_nStubs              = nemul;
           perStub[3].t_nStubs_readout      = nemul_readout;
-          perStub[3].t_nComp = compV.size();
+          //perStub[3].t_nComp = compV.size();
           event_tree[3]->Fill();
 
 

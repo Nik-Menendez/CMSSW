@@ -24,7 +24,7 @@ cscTriggerPrimitiveDigis = cms.EDProducer("CSCTriggerPrimitivesProducer",
     writeOutAllALCTs = cms.bool(False),
 
     # Write out pre-triggers
-    savePreTriggers = cms.bool(False),
+    savePreTriggers = cms.bool(True),
 
     # Parameters common for all boards
     commonParam = cms.PSet(

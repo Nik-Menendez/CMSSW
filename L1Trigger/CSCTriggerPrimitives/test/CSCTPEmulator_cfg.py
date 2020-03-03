@@ -8,12 +8,12 @@ from Configuration.StandardSequences.Eras import eras
 process = cms.Process("CSCTPEmulator", eras.Run2_2018)
 
 process.maxEvents = cms.untracked.PSet(
-    input = cms.untracked.int32(-1)
+    input = cms.untracked.int32(100)
 )
 
 process.source = cms.Source("PoolSource",
      fileNames = cms.untracked.vstring(
-		#'/store/data/Run2018D/ZeroBias/RAW/v1/000/323/940/00000/090F7307-7EB4-CA45-A6B9-542C3AE60FD4.root',
+		'/store/data/Run2018D/ZeroBias/RAW/v1/000/323/940/00000/090F7307-7EB4-CA45-A6B9-542C3AE60FD4.root',
      		#'/store/data/Run2018D/ZeroBias/RAW/v1/000/323/940/00000/B3EFCFDD-7111-9647-B720-D2B33AFE35A2.root',
      		#'/store/data/Run2018D/ZeroBias/RAW/v1/000/323/976/00000/0FC00E0C-9E5C-B34A-94C9-CCD8508F96BE.root'
      		#'/store/data/Run2018D/ZeroBias/RAW/v1/000/323/976/00000/CF78227D-CD9E-C342-B9DE-0A038D5F95A7.root',
@@ -1073,18 +1073,19 @@ process.lctreader.CSCWireDigiProducer = cms.InputTag("simMuonCSCDigis","MuonCSCW
 # ======
 process.output = cms.OutputModule(
     "PoolOutputModule",
-    fileName = cms.untracked.string("lcts.root"),
+    fileName = cms.untracked.string("lcts_emulated.root"),
     outputCommands = cms.untracked.vstring("drop *",
                                            "keep *_cscTriggerPrimitive*_*_*",
                                            "keep *_*csc*_*_*",
                                            "keep *_*CSC*_*_*",
 					   "drop CSCDetIdCSCStripDigiMuonDigiCollection_muonCSCDigis_MuonCSCStripDigi_CSCTPEmulator",
-					   "drop CSCDetIdCSCRPCDigiMuonDigiCollection_muonCSCDigis_MuonCSCRPCDigi_CSCTPEmulator"
+					   "drop CSCDetIdCSCRPCDigiMuonDigiCollection_muonCSCDigis_MuonCSCRPCDigi_CSCTPEmulator",
+                                           "drop CSCDetIdCSCStripDigiMuonDigiCollection_muonCSCDigis_MuonCSCStripDigi_*"
                                        )
 )
 
 process.TFileService = cms.Service("TFileService",
-    fileName = cms.string('TPEHists.root')
+    fileName = cms.string('TPEHists_emulated.root')
 )
 
 # Scheduler path

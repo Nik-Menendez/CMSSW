@@ -11,7 +11,7 @@ lctreader = cms.EDAnalyzer("CSCTriggerPrimitivesReader",
     debug = cms.untracked.bool(False),
     # Define which LCTs are present in the input file.  This will determine the
     # workflow of the Reader.
-                           dataLctsIn = cms.bool(False),
+    dataLctsIn = cms.bool(True),
     emulLctsIn = cms.bool(True),
     printps = cms.bool(True),
     # Labels to retrieve LCTs from the event (optional)
@@ -37,5 +37,5 @@ lctreader = cms.EDAnalyzer("CSCTriggerPrimitivesReader",
     CSCComparatorDigiProducer = cms.InputTag("muonCSCDigis","MuonCSCComparatorDigi"),
     CSCWireDigiProducer = cms.InputTag("muonCSCDigis","MuonCSCWireDigi"),
     checkBadChambers = cms.untracked.bool(True),
-    dataIsAnotherMC = cms.untracked.bool(False)
+    dataIsAnotherMC = cms.untracked.bool(False)#default was False
 )

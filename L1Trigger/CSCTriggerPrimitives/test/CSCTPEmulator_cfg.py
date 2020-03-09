@@ -13,7 +13,7 @@ process.maxEvents = cms.untracked.PSet(
 
 process.source = cms.Source("PoolSource",
      fileNames = cms.untracked.vstring(
-		'/store/data/Run2018D/ZeroBias/RAW/v1/000/323/940/00000/090F7307-7EB4-CA45-A6B9-542C3AE60FD4.root',
+		#'/store/data/Run2018D/ZeroBias/RAW/v1/000/323/940/00000/090F7307-7EB4-CA45-A6B9-542C3AE60FD4.root',
      		#'/store/data/Run2018D/ZeroBias/RAW/v1/000/323/940/00000/B3EFCFDD-7111-9647-B720-D2B33AFE35A2.root',
      		#'/store/data/Run2018D/ZeroBias/RAW/v1/000/323/976/00000/0FC00E0C-9E5C-B34A-94C9-CCD8508F96BE.root'
      		#'/store/data/Run2018D/ZeroBias/RAW/v1/000/323/976/00000/CF78227D-CD9E-C342-B9DE-0A038D5F95A7.root',
@@ -1093,7 +1093,7 @@ process.TFileService = cms.Service("TFileService",
 process.p = cms.Path(
     process.muonCSCDigis*
     process.cscTriggerPrimitiveDigis
-#    *process.lctreader
+    *process.lctreader
     )
 
 process.pp = cms.EndPath(process.output)

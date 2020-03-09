@@ -12,6 +12,9 @@ count_c = 0
 count_w = 0
 numEvents = 0
 
+ncomp=0
+nwire=0
+
 X = 7
 
 print "===================== Comparator Digis =====================" 
@@ -26,6 +29,7 @@ for i in range(0, nEntries):
     print "---- Endcap =",clct.t_endcap,", Station =",clct.t_station,", Ring =",clct.t_ring,", and chamber =",clct.t_chamber," has nComp =",clct.t_nComp
     count_c+=1
 
+  ncomp+=clct.t_nComp
   numEvents = clct.t_EventNumberAnalyzed  
   
 print "======================== Wire Digis ========================"
@@ -45,9 +49,10 @@ for i in range(0, nEntries):
     print "---- Endcap =",alct.t_endcap,", Station =",alct.t_station,", Ring =",alct.t_ring,", and chamber =",alct.t_chamber," has nWire =",alct.t_nWire
     count_w+=1
 
+  nwire+=alct.t_nWire
   numEvents = alct.t_EventNumberAnalyzed
 
 print "========================== Results =========================="
-print "In", numEvents, "events,", count_c, "chambers had >", X, "Comparator Digis"
-print "In", numEvents, "events,", count_w, "chambers had >", X, "Wire Digis"
+print "In", numEvents, "events,", count_c, "chambers had >", X, "Comparator Digis with", ncomp, "comparator digis total" 
+print "In", numEvents, "events,", count_w, "chambers had >", X, "Wire Digis with", nwire, "wire digis total"
 

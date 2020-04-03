@@ -56,6 +56,7 @@ struct TreePerStub{
   Int_t t_nStubs_noMEpm11;
 
   Int_t t_chamber;
+  Int_t t_sector;
   Int_t t_ring;
   Int_t t_endcap;
   Int_t t_station;

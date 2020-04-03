@@ -156,6 +156,7 @@ void TreePerStub::init(int run, int event){
   t_station = -1;
   t_chambertype = -1;
   t_endcap = -2;
+  t_sector = -1;
   t_nComp = 0;
   t_nWire = 0;
 }
@@ -175,6 +176,7 @@ TTree *TreePerStub::bookTree(TTree *t, const std::string & name)
   t->Branch("t_nStubs_noMEpm11",&t_nStubs_noMEpm11,"t_nStubs_noMEpm11/I");
 
   t->Branch("t_chamber", &t_chamber, "t_chamber/I");
+  t->Branch("t_sector", &t_sector, "t_sector/I");
   t->Branch("t_ring", &t_ring, "t_ring/I");
   t->Branch("t_endcap", &t_endcap, "t_endcap/I");
   t->Branch("t_station", &t_station, "t_station/I");
@@ -1538,6 +1540,7 @@ void CSCTriggerPrimitivesReader::compareALCTs(const CSCALCTDigiCollection* alcts
           perStub[0].t_station = stat;
           perStub[0].t_chamber = cham;
           perStub[0].t_ring = ring;
+          perStub[0].t_sector = detid.triggerSector();
           perStub[0].t_EventNumberAnalyzed = eventsAnalyzed;
           perStub[0].t_nStubs              = ndata;
           perStub[0].t_nStubs_readout              = ndata;
@@ -1848,6 +1851,7 @@ void CSCTriggerPrimitivesReader::compareCLCTs(const CSCCLCTDigiCollection* clcts
             nemul_readout = 2;
           }
 
+          std::cout << "ME" << stat << "/" << ring << ", Chamber " << cham << " is in Sector " << detid.triggerSector()  << std::endl;
 
           //Per event Fill, From Luca
           //Data, add HS quality later
@@ -1862,6 +1866,7 @@ void CSCTriggerPrimitivesReader::compareCLCTs(const CSCCLCTDigiCollection* clcts
           perStub[2].t_station = stat;
           perStub[2].t_chamber = cham;
           perStub[2].t_ring = ring;
+          perStub[2].t_sector = detid.triggerSector();
           perStub[2].t_EventNumberAnalyzed = eventsAnalyzed;
           perStub[2].t_nStubs              = ndata;
           perStub[2].t_nStubs_readout              = ndata;

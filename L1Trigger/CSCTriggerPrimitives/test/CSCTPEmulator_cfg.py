@@ -15,7 +15,7 @@ process.source = cms.Source("PoolSource",
      fileNames = cms.untracked.vstring(
           'file:/afs/cern.ch/work/c/cpena/public/NikTrigger/step2_file1_to_5.root',
           'file:/afs/cern.ch/work/c/cpena/public/NikTrigger/step2_file6_to_10.root',
-          'file:afs/cern.ch/work/c/cpena/public/NikTrigger/step2_file10.root',
+          #'/afs/cern.ch/work/c/cpena/public/NikTrigger/step2_file10.root',
           'file:/afs/cern.ch/work/c/cpena/public/NikTrigger/step2_file11_to_15.root',
           'file:/afs/cern.ch/work/c/cpena/public/NikTrigger/step2_file16_to_20.root'
           #'/store/data/Run2018D/ZeroBias/RAW/v1/000/323/940/00000/090F7307-7EB4-CA45-A6B9-542C3AE60FD4.root'

@@ -6,7 +6,7 @@ from tqdm import tqdm
 tqdm_disable = False
 ROOT.gErrorIgnoreLevel = kWarning;
 
-File = TFile("Data/TPEHists_2.root","READ")
+File = TFile("TPEHists_emulated.root","READ")
 clct = File.Get("lctreader/Ev_clcttree")
 alct = File.Get("lctreader/Ev_alcttree")
 

@@ -13,16 +13,17 @@ lctreader = cms.EDAnalyzer("CSCTriggerPrimitivesReader",
     # workflow of the Reader.
     dataLctsIn = cms.bool(True),
     emulLctsIn = cms.bool(True),
-    printps = cms.bool(True),
+    printps = cms.bool(False),
     # Labels to retrieve LCTs from the event (optional)
     #                                       produced by unpacker
     ##   * 'simCscTriggerPrimitiveDigis','MPCSORTED' : simulated trigger primitives (LCTs) from re-emulating CSC digis
     ##   * 'emtfStage2Digis' : real trigger primitives as received by EMTF, unpacked in EventFilter/L1TRawToDigi/
     #data: muonCSCDigis, emtfStage2Digis
     #simulation(emulator): simCscTriggerPrimitiveDig, simEmtfDigis
-    #CSCLCTProducerData = cms.untracked.string("simMuonCSCDigis"),
-    CSCLCTProducerData = cms.untracked.string("muonCSCDigis"),
-    CSCMPCLCTProducerData = cms.untracked.string("emtfStage2Digis"),
+    CSCLCTProducerData = cms.untracked.string("simMuonCSCDigis"),
+    CSCMPCLCTProducerData = cms.untracked.string("simEmtfDigis"),
+    #CSCLCTProducerData = cms.untracked.string("muonCSCDigis"),
+    #CSCMPCLCTProducerData = cms.untracked.string("emtfStage2Digis"),
     #                                       produced by emulator
     #CSCLCTProducerEmul = cms.untracked.string("cscTriggerPrimitiveDigis"),
     CSCLCTProducerEmul = cms.untracked.string("simCscTriggerPrimitiveDigis"),

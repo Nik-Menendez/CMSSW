@@ -430,12 +430,12 @@ void CSCTriggerPrimitivesReader::analyze(const edm::Event& ev, const edm::EventS
 
   // Data
   if (dataLctsIn_) {
-    ev.getByToken(wire_d_token_, wire_data_);
-    ev.getByToken(comp_d_token_, comp_data_);
-    ev.getByToken(alcts_d_token_, alcts_data_);
-    ev.getByToken(clcts_d_token_, clcts_data_);
-    ev.getByToken(lcts_tmb_d_token_, lcts_tmb_data_);
-    ev.getByToken(lcts_mpc_d_token_, lcts_mpc_data_);
+    ev.getByToken(wire_e_token_, wire_data_);
+    ev.getByToken(comp_e_token_, comp_data_);
+    ev.getByToken(alcts_e_token_, alcts_data_);
+    ev.getByToken(clcts_e_token_, clcts_data_);
+    ev.getByToken(lcts_tmb_e_token_, lcts_tmb_data_);
+    ev.getByToken(lcts_mpc_e_token_, lcts_mpc_data_);
 
     //HotWires(wire_data_.product());
     checkValid(alcts_data_);
@@ -2792,7 +2792,9 @@ void CSCTriggerPrimitivesReader::MCStudies(const edm::Event& ev,
             */
         std::cout << "fill!" << std::endl;
         //assign values to tree
+        std::cout << "pdgId = " << prunedV[i]->pdgId() << std::endl;
         if (prunedV[i]->pdgId() == 9000006) {
+          std::cout << "------------------- WE ACTUALLY GOT ONE!!!! --------------------" << std::endl;
           llp_decay_x[0] = prunedV[i]->daughter(0)->vx();
           llp_decay_y[0] = prunedV[i]->daughter(0)->vy();
           llp_decay_z[0] = prunedV[i]->daughter(0)->vz();

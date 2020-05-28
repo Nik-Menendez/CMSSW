@@ -43,12 +43,13 @@ class CSCGeometry;
 class CSCBadChambers;
 class TFile;
 
-struct TreePerStub{
-  void init(int run, int event); // initialize to default values
-  TTree *bookTree(TTree *t, const std::string & name = "TreePerStub");
+struct TreePerStub {
+  void init(int run, int event, int lumi);  // initialize to default values
+  TTree *bookTree(TTree *t, const std::string &name = "TreePerStub");
 
   Int_t t_EventNumberAnalyzed;
-  Int_t t_RUN;
+  Int_t t_Run;
+  Int_t t_Lumi;
   Int_t t_Event;
   Int_t t_nStubs;
   Int_t t_nStubs_readout;//only for emulation
@@ -66,13 +67,13 @@ struct TreePerStub{
   Int_t t_nWire;
 };
 
-
-struct MyStubComparison{
-  void init(int run, int event); // initialize to default values
-  TTree *bookTree(TTree *t, const std::string & name = "Stub_compare");
+struct MyStubComparison {
+  void init(int run, int event, int lumi);  // initialize to default values
+  TTree *bookTree(TTree *t, const std::string &name = "Stub_compare");
 
   Int_t nEvents;
-  Int_t nRUN;
+  Int_t nRun;
+  Int_t nLumi;
   Int_t nEvent;
   Bool_t firstfill;
   Int_t totStubs_data;
@@ -149,8 +150,9 @@ class CSCTriggerPrimitivesReader : public edm::EDAnalyzer
   std::string rootFileName; // root file name
 
   // Run number, Event number
-  int RUN_;
+  int Run_;
   int Event_;
+  int Lumi_;
 
   // Cache geometry for current event
   const CSCGeometry* geom_;

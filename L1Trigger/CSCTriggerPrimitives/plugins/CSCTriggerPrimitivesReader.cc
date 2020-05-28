@@ -430,12 +430,12 @@ void CSCTriggerPrimitivesReader::analyze(const edm::Event& ev, const edm::EventS
 
   // Data
   if (dataLctsIn_) {
-    ev.getByToken(wire_e_token_, wire_data_);
-    ev.getByToken(comp_e_token_, comp_data_);
-    ev.getByToken(alcts_e_token_, alcts_data_);
-    ev.getByToken(clcts_e_token_, clcts_data_);
-    ev.getByToken(lcts_tmb_e_token_, lcts_tmb_data_);
-    ev.getByToken(lcts_mpc_e_token_, lcts_mpc_data_);
+    ev.getByToken(wire_d_token_, wire_data_);
+    ev.getByToken(comp_d_token_, comp_data_);
+    ev.getByToken(alcts_d_token_, alcts_data_);
+    ev.getByToken(clcts_d_token_, clcts_data_);
+    ev.getByToken(lcts_tmb_d_token_, lcts_tmb_data_);
+    ev.getByToken(lcts_mpc_d_token_, lcts_mpc_data_);
 
     //HotWires(wire_data_.product());
     checkValid(alcts_data_);
@@ -2769,7 +2769,8 @@ void CSCTriggerPrimitivesReader::MCStudies(const edm::Event& ev,
           (abs((*genParticles)[i].pdgId()) >= 32 && abs((*genParticles)[i].pdgId()) <= 42) ||
           (abs((*genParticles)[i].pdgId()) >= 100 && abs((*genParticles)[i].pdgId()) <= 350)
           // || (abs((*genParticles)[i].pdgId()) >= 1000001 && abs((*genParticles)[i].pdgId()) <= 1000039)
-          || (abs((*genParticles)[i].pdgId()) == 9000006 || abs((*genParticles)[i].pdgId()) == 9000007)) {
+          || (abs((*genParticles)[i].pdgId()) == 9000006 || abs((*genParticles)[i].pdgId()) == 9000007)
+          || (abs((*genParticles)[i].pdgId()) == 6000113)) {
         if ((*genParticles)[i].pt() > pt_cut) {
           prunedV.push_back(&(*genParticles)[i]);
         }
@@ -2779,7 +2780,7 @@ void CSCTriggerPrimitivesReader::MCStudies(const edm::Event& ev,
     //nGenParticle = prunedV.size();
     //Look for mother particle and Fill gen variables
     for (unsigned int i = 0; i < prunedV.size(); i++) {
-      if (abs(prunedV[i]->pdgId()) > 90000) {
+      if (abs(prunedV[i]->pdgId()) > 60000) {
         /*std::cout << "pdgid: " << prunedV[i]->pdgId() << " nDaugthers: "
               << prunedV[i]->numberOfDaughters()
               << "; dau0: " << prunedV[i]->daughter(0)->pdgId()
@@ -2795,8 +2796,7 @@ void CSCTriggerPrimitivesReader::MCStudies(const edm::Event& ev,
         std::cout << "fill!" << std::endl;
         //assign values to tree
         std::cout << "pdgId = " << prunedV[i]->pdgId() << std::endl;
-        if (prunedV[i]->pdgId() == 9000006) {
-          std::cout << "------------------- WE ACTUALLY GOT ONE!!!! --------------------" << std::endl;
+        if (prunedV[i]->pdgId() == 9000006 || prunedV[i]->pdgId() == 6000113) {
           llp_decay_x[0] = prunedV[i]->daughter(0)->vx();
           llp_decay_y[0] = prunedV[i]->daughter(0)->vy();
           llp_decay_z[0] = prunedV[i]->daughter(0)->vz();
@@ -2806,7 +2806,7 @@ void CSCTriggerPrimitivesReader::MCStudies(const edm::Event& ev,
             llp_in_acceptance[0] = true;
         }
         //
-        if (prunedV[i]->pdgId() == -9000006) {
+        if (prunedV[i]->pdgId() == -9000006 || prunedV[i]->pdgId() == -6000113) {
           llp_decay_x[1] = prunedV[i]->daughter(0)->vx();
           llp_decay_y[1] = prunedV[i]->daughter(0)->vy();
           llp_decay_z[1] = prunedV[i]->daughter(0)->vz();

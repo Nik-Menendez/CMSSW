@@ -14,19 +14,22 @@ lctreader = cms.EDAnalyzer(
     # This will determine the workflow of the Reader.
     dataLctsIn = cms.bool(True),
     emulLctsIn = cms.bool(True),
-    checkBadChambers = cms.bool(True),
-    dataIsAnotherMC = cms.bool(True),
-    printps = cms.bool(True),
-    resultsFileNamesPrefix = cms.string(""),
-    #data:
-    compData = cms.InputTag("muonCSCDigis","MuonCSCComparatorDigi"),
-    wireData = cms.InputTag("muonCSCDigis","MuonCSCWireDigi"),
-    alctData = cms.InputTag("muonCSCDigis", "MuonCSCALCTDigi"),
-    clctData = cms.InputTag("muonCSCDigis", "MuonCSCCLCTDigi"),
-    lctData = cms.InputTag("muonCSCDigis", "MuonCSCCorrelatedLCTDigi"),
-    mpclctData = cms.InputTag("emtfStage2Digis"),
-    #simulation(emulator):
-    genParticles      = cms.InputTag("genParticles"),
+    printps = cms.bool(False),
+    # Labels to retrieve LCTs from the event (optional)
+    #                                       produced by unpacker
+    ##   * 'simCscTriggerPrimitiveDigis','MPCSORTED' : simulated trigger primitives (LCTs) from re-emulating CSC digis
+    ##   * 'emtfStage2Digis' : real trigger primitives as received by EMTF, unpacked in EventFilter/L1TRawToDigi/
+    #data: muonCSCDigis, emtfStage2Digis
+    #simulation(emulator): simCscTriggerPrimitiveDig, simEmtfDigis
+    CSCLCTProducerData = cms.untracked.string("simMuonCSCDigis"),
+    CSCMPCLCTProducerData = cms.untracked.string("simEmtfDigis"),
+    #CSCLCTProducerData = cms.untracked.string("muonCSCDigis"),
+    #CSCMPCLCTProducerData = cms.untracked.string("emtfStage2Digis"),
+    #                                       produced by emulator
+    #CSCLCTProducerEmul = cms.untracked.string("cscTriggerPrimitiveDigis"),
+    CSCLCTProducerEmul = cms.untracked.string("simCscTriggerPrimitiveDigis"),
+    # Labels to retrieve simHits, comparator and wire digis.
+    #  (Used only when emulLctsIn = true.)
     CSCSimHitProducer = cms.InputTag("g4SimHits", "MuonCSCHits"),  # Full sim.
     compEmul = cms.InputTag("simMuonCSCDigis","MuonCSCComparatorDigi"),
     wireEmul = cms.InputTag("simMuonCSCDigis","MuonCSCWireDigi"),

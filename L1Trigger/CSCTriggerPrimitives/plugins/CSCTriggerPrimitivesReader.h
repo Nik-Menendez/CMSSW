@@ -28,7 +28,7 @@
 #include "DataFormats/CSCDigi/interface/CSCWireDigiCollection.h"
 #include "DataFormats/CSCDigi/interface/CSCComparatorDigiCollection.h"
 
-#include "L1Trigger/CSCTriggerPrimitives/interface/CSCCathodeLCTProcessor.h"  // TMB07
+#include "L1Trigger/CSCTriggerPrimitives/interface/CSCCathodeLCTProcessor.h" // TMB07
 
 #include "SimDataFormats/TrackingHit/interface/PSimHitContainer.h"
 
@@ -52,7 +52,7 @@ struct TreePerStub {
   Int_t t_Lumi;
   Int_t t_Event;
   Int_t t_nStubs;
-  Int_t t_nStubs_readout;  //only for emulation
+  Int_t t_nStubs_readout;//only for emulation
   Int_t t_nStubs_ME119;
   Int_t t_nStubs_ME11no911;
   Int_t t_nStubs_noMEpm11;
@@ -95,7 +95,7 @@ struct MyStubComparison {
   Int_t quality_emul;
   Int_t bend_emul;
   Int_t bx_emul;
-  Int_t bx_corr_emul;  //corrected
+  Int_t bx_corr_emul;//corrected
   Int_t npretrig;
   Int_t quality_pretrig;
   Int_t maxquality_pretrig;
@@ -124,29 +124,30 @@ struct MyStubComparison {
   Float_t phi_emul;
 };
 
-class CSCTriggerPrimitivesReader : public edm::EDAnalyzer {
-public:
+class CSCTriggerPrimitivesReader : public edm::EDAnalyzer
+{
+ public:
   /// Constructor
-  explicit CSCTriggerPrimitivesReader(const edm::ParameterSet &conf);
+  explicit CSCTriggerPrimitivesReader(const edm::ParameterSet& conf);
 
   /// Destructor
-  ~CSCTriggerPrimitivesReader() override;
+  virtual ~CSCTriggerPrimitivesReader();
 
   /// Does the job
-  void analyze(const edm::Event &event, const edm::EventSetup &setup) override;
+  void analyze(const edm::Event& event, const edm::EventSetup& setup);
 
   /// Write to ROOT file, make plots, etc.
-  void endJob() override;
+  void endJob();
 
-  int chamberSerial(CSCDetId id);
-  int chamberIX(CSCDetId id);
-  int chamberIXi(CSCDetId id);
-  void HotWires(const CSCWireDigiCollection *wireDigis);
+  int chamberSerial( CSCDetId id );
+  int chamberIX( CSCDetId id );
+  int chamberIXi( CSCDetId id );
+  void HotWires(const edm::Event& iEvent);
 
-private:
-  int eventsAnalyzed;        // event number
-  bool debug;                // on/off switch
-  std::string rootFileName;  // root file name
+ private:
+  int eventsAnalyzed;       // event number
+  bool debug;               // on/off switch
+  std::string rootFileName; // root file name
 
   // Run number, Event number
   int Run_;
@@ -154,10 +155,10 @@ private:
   int Lumi_;
 
   // Cache geometry for current event
-  const CSCGeometry *geom_;
+  const CSCGeometry* geom_;
 
   // Cache conditions data for bad chambers
-  const CSCBadChambers *badChambers_;
+  const CSCBadChambers* badChambers_;
 
   // Define which LCTs are present in the input file.  This will determine the
   // workflow of the Reader.
@@ -172,7 +173,6 @@ private:
   // Flag to plot or not plot ME4/2.
   bool plotME42;
 
-  // handles
   edm::Handle<CSCComparatorDigiCollection> comp_data_;
   edm::Handle<CSCWireDigiCollection> wire_data_;
   edm::Handle<CSCALCTDigiCollection> alcts_data_;
@@ -210,13 +210,14 @@ private:
   edm::EDGetTokenT<CSCCorrelatedLCTDigiCollection> lcts_mpc_d_token_;
 
   // a prefix for results ps files
-  std::string resultsFileNamesPrefix_;
+  std::string   resultsFileNamesPrefix_;
 
   // whether to perform check against known "bad chambers" list
   bool checkBadChambers_;
 
   // not data vs. mc, but mc vs mc
   bool dataIsAnotherMC_;
+
 
   // The file which will store the histos
   // TFile *theFile;
@@ -269,10 +270,10 @@ private:
   void bookCLCTHistos();
   void bookLCTTMBHistos();
   void bookLCTMPCHistos();
-  void fillALCTHistos(const CSCALCTDigiCollection *alcts);
-  void fillCLCTHistos(const CSCCLCTDigiCollection *clcts);
-  void fillLCTTMBHistos(const CSCCorrelatedLCTDigiCollection *lcts);
-  void fillLCTMPCHistos(const CSCCorrelatedLCTDigiCollection *lcts);
+  void fillALCTHistos(const CSCALCTDigiCollection* alcts);
+  void fillCLCTHistos(const CSCCLCTDigiCollection* clcts);
+  void fillLCTTMBHistos(const CSCCorrelatedLCTDigiCollection* lcts);
+  void fillLCTMPCHistos(const CSCCorrelatedLCTDigiCollection* lcts);
   void drawALCTHistos();
   void drawCLCTHistos();
   void drawLCTTMBHistos();
@@ -286,7 +287,7 @@ private:
 
   GlobalPoint getGlobalPosition(unsigned int rawId, int keWg, int keyHS) const;
   bool doesALCTCrossCLCT(CSCDetId id, int key_wg, int key_hs) const;
-  int getCSCType(const CSCDetId &id);
+  int    getCSCType(const CSCDetId& id);
   double getHsPerRad(const int idh);
 
   void compare(const CSCALCTDigiCollection *alcts_data,

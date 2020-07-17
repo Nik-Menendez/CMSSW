@@ -8,12 +8,13 @@ from Configuration.StandardSequences.Eras import eras
 process = cms.Process("CSCTPEmulator", eras.Run3)
 
 process.maxEvents = cms.untracked.PSet(
-    input = cms.untracked.int32(100)
+    input = cms.untracked.int32(-1)
 )
 
 process.source = cms.Source("PoolSource",
      fileNames = cms.untracked.vstring(
-         'file:/uscms/home/dildick/nobackup/work/LLPStudiesWithSergoEtAL/CMSSW_11_1_0_pre6/src/L1Trigger/CSCTriggerPrimitives/test/FFC59020-EA48-1F41-B4B8-FF34C0E09D88.root'
+         #'file:/uscms/home/dildick/nobackup/work/LLPStudiesWithSergoEtAL/CMSSW_11_1_0_pre6/src/L1Trigger/CSCTriggerPrimitives/test/FFC59020-EA48-1F41-B4B8-FF34C0E09D88.root'
+         #'file:/afs/cern.ch/work/n/nimenend/Trigger/data/step2_test_signal.root'
      )
 )
 

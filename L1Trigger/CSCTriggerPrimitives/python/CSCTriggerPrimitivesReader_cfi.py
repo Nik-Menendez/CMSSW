@@ -15,8 +15,8 @@ lctreader = cms.EDAnalyzer(
     dataLctsIn = cms.bool(True),
     emulLctsIn = cms.bool(True),
     checkBadChambers = cms.bool(True),
-    dataIsAnotherMC = cms.bool(True),
-    printps = cms.bool(True),
+    dataIsAnotherMC = cms.bool(False),
+    printps = cms.bool(False),
     resultsFileNamesPrefix = cms.string(""),
     #data:
     compData = cms.InputTag("muonCSCDigis","MuonCSCComparatorDigi"),

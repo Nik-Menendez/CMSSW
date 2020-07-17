@@ -3,25 +3,33 @@
 # Slava Valuev; October, 2006.
 
 import FWCore.ParameterSet.Config as cms
+from Configuration.StandardSequences.Eras import eras
 
-from Configuration.Eras.Era_Run2_2018_cff import Run2_2018
-process = cms.Process("CSCTPEmulator", Run2_2018)
+process = cms.Process("CSCTPEmulator", eras.Run2_2018)
 
 process.maxEvents = cms.untracked.PSet(
-  input = cms.untracked.int32(100)
+    input = cms.untracked.int32(100)
 )
-
-# Hack to add "test" directory to the python path.
-import sys, os
-sys.path.insert(0, os.path.join(os.environ['CMSSW_BASE'],
-                                'src/L1Trigger/CSCTriggerPrimitives/test'))
 
 process.source = cms.Source("PoolSource",
      fileNames = cms.untracked.vstring(
-         #'file:lcts.root'
-         'file:/store/data/Run2018D/ZeroBias/RAW/v1/000/323/940/00000/090F7307-7EB4-CA45-A6B9-542C3AE60FD4.root'
-     )
+          #'file:/afs/cern.ch/work/c/cpena/public/NikTrigger/step2_file1_to_5.root',
+          #'file:/afs/cern.ch/work/c/cpena/public/NikTrigger/step2_file6_to_10.root',
+          #'/afs/cern.ch/work/c/cpena/public/NikTrigger/step2_file10.root',
+          #'file:/afs/cern.ch/work/c/cpena/public/NikTrigger/step2_file11_to_15.root',
+          #'file:/afs/cern.ch/work/c/cpena/public/NikTrigger/step2_file16_to_20.root'
+          '/store/data/Run2018D/ZeroBias/RAW/v1/000/323/940/00000/090F7307-7EB4-CA45-A6B9-542C3AE60FD4.root'
+          #'file:data/step2_test_signal.root'
+	)
 )
+
+"""
+'file:/afs/cern.ch/work/c/cpena/public/NikTrigger/step2_file1_to_5.root',
+'file:/afs/cern.ch/work/c/cpena/public/NikTrigger/step2_file6_to_10.root',
+'file:/afs/cern.ch/work/c/cpena/public/NikTrigger/step2_file11_to_15.root',
+'file:/afs/cern.ch/work/c/cpena/public/NikTrigger/step2_file16_to_20.root'
+#         'file:/uscms/home/dildick/nobackup/work/LLPStudiesWithSergoEtAL/CMSSW_10_6_4/src/step2.root'
+"""
 
 process.MessageLogger = cms.Service("MessageLogger",
     destinations = cms.untracked.vstring("debug"),
@@ -33,7 +41,7 @@ process.MessageLogger = cms.Service("MessageLogger",
         noLineBreaks = cms.untracked.bool(True)
     ),
     debugModules = cms.untracked.vstring("cscTriggerPrimitiveDigis",
-        "lctreader")
+                                         "lctreader")
 )
 
 # es_source of ideal geometry
@@ -90,9 +98,9 @@ process.TFileService = cms.Service("TFileService",
 # Scheduler path
 # ==============
 process.p = cms.Path(
-    process.muonCSCDigis *
-    process.cscTriggerPrimitiveDigis *
-    process.lctreader
+    process.muonCSCDigis*
+    process.cscTriggerPrimitiveDigis
+    *process.lctreader
     )
 
-process.pp = cms.EndPath(process.output)
+#process.pp = cms.EndPath(process.output)

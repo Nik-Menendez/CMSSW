@@ -21,21 +21,21 @@ showerPSet = cms.PSet(
             # ME1/1
             100, 100, 100,
             # ME1/2
-            27, 55, 61,
+            27, 55, 40,
             # ME1/3
-            10, 20, 30,
+            10, 20, 19,
             # ME2/1
-            16, 35, 35,
+            16, 35, 28,
             # ME2/2
-            15, 29, 35,
+            15, 29, 25,
             # ME3/1
-            16, 35, 40,
+            16, 35, 28,
             # ME3/2
-            12, 25, 30,
+            12, 25, 22,
             # ME4/1
-            18, 40, 40,
+            18, 40, 28,
             # ME4/2
-            13, 30, 30
+            13, 30, 25
         ),
         showerMinInTBin = cms.uint32(6),
         showerMaxInTBin = cms.uint32(8),
@@ -47,26 +47,26 @@ showerPSet = cms.PSet(
         ## {loose, nominal, tight} thresholds for hit counters
         showerThresholds = cms.vuint32(
             # ME1/1
-            104, 105, 107,
+            140, 140, 140,
             # ME1/2
-            92, 100, 102,
+            28, 56, 84,
             # ME1/3
-            32, 33, 48,
+            11, 22, 33,
             # ME2/1
-            133, 134, 136,
+            28, 55, 82,
             # ME2/2
-            83, 84, 86,
+            17, 34, 51,
             # ME3/1
-            130, 131, 133,
+            37, 74, 111,
             # ME3/2
-            74, 80, 87,
+            14, 27, 40,
             # ME4/1
-            127, 128, 130,
+            43, 86, 129,
             # ME4/2
-            88, 89, 94
+            34, 67, 100
         ),
         showerMinInTBin = cms.uint32(8),
-        showerMaxInTBin = cms.uint32(10),
+        showerMaxInTBin = cms.uint32(8),
         showerMinOutTBin = cms.uint32(4),
         showerMaxOutTBin = cms.uint32(7),
     )

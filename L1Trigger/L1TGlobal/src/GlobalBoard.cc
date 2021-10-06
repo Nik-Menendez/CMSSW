@@ -411,8 +411,8 @@ void l1t::GlobalBoard::receiveMuonShowerObjectData(edm::Event& iEvent,
         }
         nObj++;
       }  //end loop over muon showers in bx
-    }  //end if over valid muon shower data
-  }  //end if ReveiveMuonShower data
+    }    //end if over valid muon shower data
+  }      //end if ReveiveMuonShower data
 }
 
 // receive data from Global External Conditions

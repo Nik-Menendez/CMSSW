@@ -39,7 +39,7 @@ void L1TGlobalProducer::fillDescriptions(edm::ConfigurationDescriptions& descrip
   desc.add<edm::InputTag>("MuonInputTag", edm::InputTag(""))
       ->setComment("InputTag for Global Muon Trigger (required parameter:  default value is invalid)");
   desc.add<edm::InputTag>("MuonShowerInputTag", edm::InputTag(""))
-    ->setComment("InputTag for Global Muon Shower Trigger (required parameter:  default value is invalid)");
+      ->setComment("InputTag for Global Muon Shower Trigger (required parameter:  default value is invalid)");
   desc.add<edm::InputTag>("EGammaInputTag", edm::InputTag(""))
       ->setComment("InputTag for Calo Trigger EGamma (required parameter:  default value is invalid)");
   desc.add<edm::InputTag>("TauInputTag", edm::InputTag(""))
@@ -117,8 +117,7 @@ L1TGlobalProducer::L1TGlobalProducer(const edm::ParameterSet& parSet)
       m_getPrescaleColumnFromData(parSet.getParameter<bool>("GetPrescaleColumnFromData")),
       m_requireMenuToMatchAlgoBlkInput(parSet.getParameter<bool>("RequireMenuToMatchAlgoBlkInput")),
       m_algoblkInputTag(parSet.getParameter<edm::InputTag>("AlgoBlkInputTag")),
-      m_useMuonShowers(parSet.getParameter<bool>("useMuonShowers"))
- {
+      m_useMuonShowers(parSet.getParameter<bool>("useMuonShowers")) {
   m_egInputToken = consumes<BXVector<EGamma>>(m_egInputTag);
   m_tauInputToken = consumes<BXVector<Tau>>(m_tauInputTag);
   m_jetInputToken = consumes<BXVector<Jet>>(m_jetInputTag);

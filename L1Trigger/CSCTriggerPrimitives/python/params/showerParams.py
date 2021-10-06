@@ -9,6 +9,10 @@ showerPSet = cms.PSet(
     ##    loose -> 'loose anode or loose cathode'
     ##    nominal -> 'nominal anode or nominal cathode'
     ##    tight -> 'tight anode or tight cathode'
+    ## 3: cathode and anode showers
+    ##    loose -> 'loose anode and loose cathode'
+    ##    nominal -> 'nominal anode and nominal cathode'
+    ##    tight -> 'tight anode and tight cathode'
     source  = cms.uint32(0),
 
     ## settings for cathode showers (counting CSCComparatorDigi)

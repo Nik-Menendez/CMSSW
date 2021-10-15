@@ -1380,6 +1380,26 @@ void CSCAnodeLCTProcessor::encodeHighMultiplicityBits(
   inTimeHMT_ = 0;
   outTimeHMT_ = 0;
 
+  // Calculate layers with hits
+  unsigned nLayersWithHits = 0;
+  unsigned minNumberOfLayersWithHits_ = 5;
+  for (int i_layer = 0; i_layer < CSCConstants::NUM_LAYERS; i_layer++) {
+    bool atLeastOneWGHit = false;
+    for (int i_wire = 0; i_wire < CSCConstants::MAX_NUM_WIREGROUPS; i_wire++) {
+      if (!wires[i_layer][i_wire].empty()) {
+        atLeastOneWGHit = true;
+        break;
+      }
+    }
+    if (atLeastOneWGHit) {
+      nLayersWithHits++;
+    }
+  }
+
+  // do nothing if there are not enough layers with hits
+  if (nLayersWithHits < minNumberOfLayersWithHits_)
+    return;
+
   // functions for in-time and out-of-time
   auto inTime = [=](unsigned time) { return time >= showerMinInTBin_ and time <= showerMaxInTBin_; };
   auto outTime = [=](unsigned time) { return time >= showerMinOutTBin_ and time <= showerMaxOutTBin_; };

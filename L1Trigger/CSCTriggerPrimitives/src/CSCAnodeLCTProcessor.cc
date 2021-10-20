@@ -1380,6 +1380,8 @@ void CSCAnodeLCTProcessor::encodeHighMultiplicityBits(
   inTimeHMT_ = 0;
   outTimeHMT_ = 0;
 
+  auto layerTime = [=](unsigned time) { return time == 8; };
+
   // Calculate layers with hits
   unsigned nLayersWithHits = 0;
   unsigned minNumberOfLayersWithHits_ = 5;
@@ -1387,8 +1389,12 @@ void CSCAnodeLCTProcessor::encodeHighMultiplicityBits(
     bool atLeastOneWGHit = false;
     for (int i_wire = 0; i_wire < CSCConstants::MAX_NUM_WIREGROUPS; i_wire++) {
       if (!wires[i_layer][i_wire].empty()) {
-        atLeastOneWGHit = true;
-        break;
+        auto times = wires[i_layer][i_wire];
+        int nLayerTime = std::count_if(times.begin(), times.end(), layerTime);
+        if (nLayerTime > 0) {
+          atLeastOneWGHit = true;
+          break;
+        }
       }
     }
     if (atLeastOneWGHit) {

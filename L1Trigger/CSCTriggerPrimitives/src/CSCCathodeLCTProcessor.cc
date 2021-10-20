@@ -1446,6 +1446,7 @@ void CSCCathodeLCTProcessor::encodeHighMultiplicityBits(
   inTimeHMT_ = 0;
   outTimeHMT_ = 0;
 
+  auto layerTime = [=](unsigned time) { return time == 7; };
   // Calculate layers with hits
   unsigned nLayersWithHits = 0;
   unsigned minNumberOfLayersWithHits_ = 5;
@@ -1453,8 +1454,12 @@ void CSCCathodeLCTProcessor::encodeHighMultiplicityBits(
     bool atLeastOneWGHit = false;
     for (int i_hstrip = 0; i_hstrip < CSCConstants::MAX_NUM_HALF_STRIPS_RUN2_TRIGGER; i_hstrip++) {
       if (!halfstrip[i_layer][i_hstrip].empty()) {
-        atLeastOneWGHit = true;
-        break;
+        auto times = halfstrip[i_layer][i_hstrip];
+        int nLayerTime = std::count_if(times.begin(), times.end(), layerTime);
+        if (nLayerTime > 0) {
+          atLeastOneWGHit = true;
+          break;
+        }
       }
     }
     if (atLeastOneWGHit) {
